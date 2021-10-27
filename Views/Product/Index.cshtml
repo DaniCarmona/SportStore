@@ -1,7 +1,29 @@
-﻿
+﻿@model IEnumerable<Product>
+
 @{
     ViewData["Title"] = "Products";
 }
 
 <h1>Products</h1>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var p in Model)
+            {
+                <tr>
+                    <th>
+                        @p.Name
+                    </th>
+                    <th>
+                        @p.Price
+                    </th>
+                </tr>
+            }
+    </tbody>
+</table>

@@ -9,14 +9,16 @@ namespace SportStore.Controllers
 {
     public class ProductController : Controller
     {
+        private ISportsStoreRepository repository;
+
         public ProductController(ISportsStoreRepository repository)
         {
-
+            this.repository = repository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(repository.Products);
         }
     }
 }
