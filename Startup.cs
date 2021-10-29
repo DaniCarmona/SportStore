@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using SportStore.Data;
 using SportStore.Models;
 using System;
 using System.Collections.Generic;
@@ -26,14 +28,18 @@ namespace SportStore
         {
             services.AddControllersWithViews();
             services.AddTransient<ISportsStoreRepository, FakeSportStorRepository>();
+            services.AddDbContext<SportStoreDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("SportStoreConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SportStoreDbContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                SeedData.Populate(context);
             }
             else
             {
